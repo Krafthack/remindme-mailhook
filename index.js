@@ -2,6 +2,7 @@ let express = require('express');
 var bodyParser = require('body-parser')
 var multer = require('multer');
 var mongoose = require('mongoose');
+var _ = require('lodash');
 
 const PORT = process.env.PORT || 8000;
 const MONGODB = process.env.MONGOLAB_URI || 'mongodb://localhost/remindme';
@@ -27,6 +28,19 @@ app.post('/webhook/email', (req, res) => {
     if (err) return res.status(500).send('ERROR');
     else return res.send('OK');
   });
+});
+
+var eventVm = function(docs) {
+  return _.map(docs, (doc) => {
+    return JSON.parse(doc.payload.envelope);
+  });
+}
+
+app.get('/reminders', (req, res) => {
+  Event.find().exec((err, docs) => {
+    if (err) return res.status(500).send('Something went wrong');
+    else return res.send(eventVm(docs));
+  })
 });
 
 app.get('/', (req, res) => res.send('Hello world'));
