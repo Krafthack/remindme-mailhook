@@ -4,7 +4,7 @@
   "description": "Email to remind me.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "gulp build_test && node build/tests/index.js",
     "watch": "watchify index.js -o 'babel index.js > build/index.js'",
     "build": "mkdir -p build && babel index.js > build/index.js",
     "postinstall": "npm run build"
@@ -15,9 +15,12 @@
     "babel": "^5.2.17",
     "body-parser": "^1.12.4",
     "express": "^4.12.3",
+    "gulp": "^3.8.11",
+    "gulp-babel": "^5.1.0",
     "lodash": "^3.8.0",
     "mongoose": "^4.0.2",
     "multer": "^0.1.8",
+    "tape": "^4.0.0",
     "watchify": "^3.2.1"
   },
   "devDependencies": {
